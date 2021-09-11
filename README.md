@@ -7,7 +7,7 @@ TODO:
     4) Data partition to test, validation and learning sets - Karol
 
 2) Create RNN
-    1) Create model
+    1) Create model - Wojtek
     2) Test different optimizers, loss function, epoch number, batch size, activation functions
     3) Test different layer size/number
     4) Test different input data length
