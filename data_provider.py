@@ -11,3 +11,7 @@ class DataProvider:
 
     def get_data_sets(self, base_size=4, proportions=(0.7, 0.2, 0.1)):
         pass
+    
+    def normalize_data(self):
+      self.data['value'] = self.data['value'] - self.data['value'].min()
+      self.data['value'] = self.data['value']/(self.data['value'].max())
