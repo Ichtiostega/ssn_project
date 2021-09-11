@@ -2,7 +2,7 @@
 TODO:
 1) Data preparation:
     a) Data import - Karol
-    b) Data selection
+    b) Data selection - Karol
     c) Data normalization
     d) Data partition to test, validation and learning sets
 
