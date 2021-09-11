@@ -1,7 +1,7 @@
 # ssn_project
 TODO:
 1) Data preparation:
-    a) Data import
+    a) Data import - Karol
     b) Data selection
     c) Data normalization
     d) Data partition to test, validation and learning sets
