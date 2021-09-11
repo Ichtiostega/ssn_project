@@ -1,9 +1,9 @@
 # ssn_project
 TODO:
 1) Data preparation:
-    a) Data import
-    b) Data selection
-    c) Data normalization
+    a) Data import - Karol
+    b) Data selection - Karol
+    c) Data normalization - Wojtek
     d) Data partition to test, validation and learning sets
 
 2) Create RNN
