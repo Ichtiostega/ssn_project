@@ -30,6 +30,7 @@ class DataProvider:
             self.data["value"] = self.data["value"].astype(float)
             self.data["date"] = pd.to_datetime(self.data["date"])
             self.data["value"] = DataProvider._fill(self.data["value"])
+            self.normalize_data()
 
     def get_data_sets(self, base_size=4, proportions=(0.7, 0.2, 0.1)):
         pass
