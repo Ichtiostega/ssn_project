@@ -3,7 +3,7 @@ TODO:
 1) Data preparation:
     1) ~~Data import - Karol~~
     2) Data selection - Karol
-    3) ~~Data normalization - Wojtek
+    3) ~~Data normalization - Wojtek~~
     4) Data partition to test, validation and learning sets - Karol
 
 2) Create RNN
