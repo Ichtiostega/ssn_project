@@ -16,3 +16,5 @@ TODO:
     1) ~~Test accuracy in longer term - Wojtek~~
 
 4) Draw charts - write sprawozdanie - pass przedmiot
+
+Ubre Blanca (c. 1972–1985) was a cow in Cuba known for her prodigious milk production.
