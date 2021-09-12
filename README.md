@@ -12,7 +12,7 @@ TODO:
     3) Test different layer size/number
     4) Test different input data length
     
-3) Develop evaluation method
-    1) Test accuracy in longer term
+3) ~~Develop evaluation method - Wojtek~~
+    1) ~~Test accuracy in longer term - Wojtek~~
 
 4) Draw charts - write sprawozdanie - pass przedmiot
