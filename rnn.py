@@ -1,4 +1,5 @@
 from tensorflow import keras
+import numpy as np
 class Rnn:
   def __init__(self, input_size, epochs = 100, batch_size = 100):
     self.model = keras.models.Sequential([
@@ -26,6 +27,7 @@ class Rnn:
     inp = x_predict
     for _ in range(days):
       result.append(self.model(inp))
-      inp.pop()
-      inp.append(result[-1])
+      inp = np.delete(inp, 0, 1)
+      val = [result[-1]]
+      inp = np.append(inp, val, 1)
     return result
