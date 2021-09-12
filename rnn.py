@@ -4,7 +4,7 @@ class Rnn:
     self.model = keras.models.Sequential([
     keras.layers.SimpleRNN(input_size, return_sequences = True, input_shape=[input_size, 1]),
     keras.layers.SimpleRNN(input_size, return_sequences = True),
-    keras.layers.Dense(1)
+    keras.layers.SimpleRNN(1)
 ])
     self.epochs = epochs
     self.batch_size = batch_size
