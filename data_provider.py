@@ -42,14 +42,19 @@ class DataProvider:
         seed=None,
         size=1000,
     ):
-        def _nn_data_chunk_gen(index, base_size, result_size):
-            x = []
-            y = []
-            for i in range(index, index + base_size):
-                x.append(self.data["value"].at[i])
-            for i in range(index + base_size, index + base_size + result_size):
-                y.append(self.data["value"].at[i])
-            return x, y
+        def _nn_data_chunk_gen(indexes, base_size, result_size):
+            x_s = []
+            y_s = []
+            for index in indexes:
+                x = []
+                y = []
+                for i in range(index, index + base_size):
+                    x.append(self.data["value"].at[i])
+                for i in range(index + base_size, index + base_size + result_size):
+                    y.append(self.data["value"].at[i])
+                x_s.append(x)
+                y_s.append(y)
+            return x_s, y_s
 
         random.seed(seed)
         get_chunk = partial(
@@ -64,11 +69,11 @@ class DataProvider:
         ]
         test_ids = indexes[int(size * proportions[0] + int(size * proportions[1])) :]
 
-        train_data = list(map(get_chunk, train_ids))
-        validate_data = list(map(get_chunk, validate_ids))
-        test_data = list(map(get_chunk, test_ids))
+        train_x, train_y = get_chunk(train_ids)
+        validate_x, validate_y = get_chunk(validate_ids)
+        test_x, test_y = get_chunk(test_ids)
 
-        return train_data, validate_data, test_data
+        return train_x, train_y, validate_x, validate_y, test_x, test_y
 
     def normalize_data(self):
         self.data["value"] = self.data["value"] - self.data["value"].min()
