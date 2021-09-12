@@ -20,7 +20,7 @@ def main():
         print(f'input size: {input_size}\ndays checked: 1')
         print(evaluator.evaluate_simple(x_test, y_test))
         for days_to_check in [2,3,4,5]:
-            _, _, _, _, x_test, y_test = provider.get_data_sets(base_size=input_sizes, seed=seed, result_size=days_to_check)
+            _, _, _, _, x_test, y_test = provider.get_data_sets(base_size=input_size, seed=seed, result_size=days_to_check)
             print(f'input size: {input_size}\ndays checked: {days_to_check}')
             print(evaluator.evaluate_long_term(x_test, y_test))
             print()
