@@ -45,12 +45,12 @@ class DataProvider:
     ):
         def _nn_data_chunk_gen(indexes, base_size, result_size):
             x_s = np.empty((len(indexes), base_size, 1))
-            y_s = np.empty((len(indexes), result_size, 1))
+            y_s = np.empty((len(indexes), result_size))
             for i, index in enumerate(indexes):
                 for subindex in range(index, index + base_size):
                     x_s[i][subindex-index][0] = self.data["value"].at[subindex]
                 for subindex in range(index + base_size, index + base_size + result_size):
-                    y_s[i][subindex-index-base_size][0] = self.data["value"].at[subindex]
+                    y_s[i][subindex-index-base_size] = self.data["value"].at[subindex]
             return x_s, y_s
 
         random.seed(seed)
