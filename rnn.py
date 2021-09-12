@@ -16,7 +16,7 @@ class Rnn:
                 metrics=['accuracy'])
     
   def train(self, x_train, y_train, x_valid, y_valid):
-    self.model.fit(x_train, y_train, epochs = self.epochs, batch_size = self.batch_size,
+    return self.model.fit(x_train, y_train, epochs = self.epochs, batch_size = self.batch_size,
                validation_data=(x_valid, y_valid), verbose = 0)
     
   def simple_predict(self, x_predict):
