@@ -10,8 +10,8 @@ class Rnn:
     self.batch_size = batch_size
 
   def compile(self, optimizer = 'adam', loss = 'mse'):
-    self.model.compile(optimizer='optimizer',
-                loss='loss',
+    self.model.compile(optimizer=optimizer,
+                loss=loss,
                 metrics=['accuracy'])
     
   def train(self, x_train, y_train, x_valid, y_valid):
