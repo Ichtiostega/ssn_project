@@ -4,6 +4,7 @@ import random
 from functools import partial
 
 import pandas as pd
+import numpy as np
 
 
 class DataProvider:
@@ -36,24 +37,20 @@ class DataProvider:
 
     def get_data_sets(
         self,
-        base_size=4,
-        result_size=1,
+        base_size: int=4,
+        result_size: int=1,
         proportions=(0.7, 0.2, 0.1),
         seed=None,
-        size=1000,
+        size: int=1000,
     ):
         def _nn_data_chunk_gen(indexes, base_size, result_size):
-            x_s = []
-            y_s = []
-            for index in indexes:
-                x = []
-                y = []
-                for i in range(index, index + base_size):
-                    x.append([self.data["value"].at[i]])
-                for i in range(index + base_size, index + base_size + result_size):
-                    y.append([self.data["value"].at[i]])
-                x_s.append(x)
-                y_s.append(y)
+            x_s = np.empty((len(indexes), base_size, 1))
+            y_s = np.empty((len(indexes), result_size, 1))
+            for i, index in enumerate(indexes):
+                for subindex in range(index, index + base_size):
+                    x_s[i][subindex-index][0] = self.data["value"].at[subindex]
+                for subindex in range(index + base_size, index + base_size + result_size):
+                    y_s[i][subindex-index-base_size][0] = self.data["value"].at[subindex]
             return x_s, y_s
 
         random.seed(seed)
