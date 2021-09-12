@@ -1,5 +1,7 @@
 from copy import deepcopy
 from math import isnan
+import random
+from functools import partial
 
 import pandas as pd
 
@@ -32,8 +34,41 @@ class DataProvider:
             self.data["value"] = DataProvider._fill(self.data["value"])
             self.normalize_data()
 
-    def get_data_sets(self, base_size=4, proportions=(0.7, 0.2, 0.1)):
-        pass
+    def get_data_sets(
+        self,
+        base_size=4,
+        result_size=1,
+        proportions=(0.7, 0.2, 0.1),
+        seed=None,
+        size=1000,
+    ):
+        def _nn_data_chunk_gen(index, base_size, result_size):
+            x = []
+            y = []
+            for i in range(index, index + base_size):
+                x.append(self.data["value"].at[i])
+            for i in range(index + base_size, index + base_size + result_size):
+                y.append(self.data["value"].at[i])
+            return x, y
+
+        random.seed(seed)
+        get_chunk = partial(
+            _nn_data_chunk_gen, base_size=base_size, result_size=result_size
+        )
+        indexes = random.sample(range(len(self.data) - base_size - 1), k=size)
+
+        train_ids = indexes[: int(size * proportions[0])]
+        validate_ids = indexes[
+            int(size * proportions[0]) : int(size * proportions[0])
+            + int(size * proportions[1])
+        ]
+        test_ids = indexes[int(size * proportions[0] + int(size * proportions[1])) :]
+
+        train_data = list(map(get_chunk, train_ids))
+        validate_data = list(map(get_chunk, validate_ids))
+        test_data = list(map(get_chunk, test_ids))
+
+        return train_data, validate_data, test_data
 
     def normalize_data(self):
         self.data["value"] = self.data["value"] - self.data["value"].min()
