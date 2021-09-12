@@ -57,7 +57,7 @@ class DataProvider:
         get_chunk = partial(
             _nn_data_chunk_gen, base_size=base_size, result_size=result_size
         )
-        indexes = random.sample(range(len(self.data) - base_size - 1), k=size)
+        indexes = random.sample(range(len(self.data) - base_size - result_size - 1), k=size)
 
         train_ids = indexes[: int(size * proportions[0])]
         validate_ids = indexes[
