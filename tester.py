@@ -10,7 +10,7 @@ def main():
     batch_size = 100
     seed = 123456
     for input_size in input_sizes:
-        x_train, y_train, x_valid, y_valid, x_test, y_test = provider.get_data_sets(base_size=input_sizes, seed=seed)
+        x_train, y_train, x_valid, y_valid, x_test, y_test = provider.get_data_sets(base_size=input_size, seed=seed)
         
         model = Rnn(input_size, epochs, batch_size)
         model.compile()

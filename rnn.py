@@ -2,7 +2,7 @@ from tensorflow import keras
 class Rnn:
   def __init__(self, input_size, epochs = 100, batch_size = 100):
     self.model = keras.models.Sequential([
-    keras.layers.SimpleRNN(input_size, return_sequences = True, input_shape=[None, 1]),
+    keras.layers.SimpleRNN(input_size, return_sequences = True, input_shape=[1, 3]),
     keras.layers.SimpleRNN(input_size, return_sequences = True),
     keras.layers.Dense(1)
 ])

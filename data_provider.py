@@ -52,8 +52,8 @@ class DataProvider:
                     x.append(self.data["value"].at[i])
                 for i in range(index + base_size, index + base_size + result_size):
                     y.append(self.data["value"].at[i])
-                x_s.append(x)
-                y_s.append(y)
+                x_s.append([x])
+                y_s.append([y])
             return x_s, y_s
 
         random.seed(seed)
