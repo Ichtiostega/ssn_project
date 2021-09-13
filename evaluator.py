@@ -10,7 +10,7 @@ class Evaluator:
             data = np.array([data])
             model_result = self.model.simple_predict(data)
             model_result = np.array(model_result).flatten()
-            results_percent.extend(abs(model_result-expected_result)/max(model_result, expected_result)*100)
+            results_percent.extend(abs(abs(model_results)-abs(expected_results))/max(model_result, expected_result)*100)
             results_mse.extend((model_result-expected_result)**2)
         mse = sum(results_mse) / len(results_mse)
         percent_error = sum(results_percent) / len(results_percent)
@@ -18,9 +18,9 @@ class Evaluator:
 
     def _calculate_percent_error(self, model_results, expected_results):
         result = []
-        difference = abs(model_results-expected_results)
+        difference = abs(abs(model_results)-abs(expected_results))
         for index in range(len(model_results)):
-            result.append(difference[index]/(max(model_results[index], expected_results[index])+0.00000001)*100)
+            result.append(difference[index]/(max(abs(model_results[index]), abs(expected_results[index]))+0.00000001)*100)
         return result
 
     def evaluate_long_term(self, x_test, y_test):
