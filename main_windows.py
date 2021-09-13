@@ -39,24 +39,6 @@ def reduce_output(scenario):
   result['percent error'] = reduce(helper_percent, scenario)/len(scenario)
   return result
 
-
-def draw_comparison_graph(model, base_days, prediction_days, starting_date):
-    data = provider.data
-    start = data[data['date'] == starting_date].index[0]
-    values_from_data = list(data['value'][start:start+base_days+prediction_days])
-    values_from_model = list(provider.normalized_data()['value'][start:start+base_days])
-    for _ in range(prediction_days):
-        input = np.empty((1,base_days,1), float)
-        for i, el in enumerate(values_from_model[-base_days:]):
-            input[0][i][0] = el
-        values_from_model.append(float(model.model(input)[0][0]))
-    values_from_model = list(map(lambda x: provider.denormalize(x), values_from_model))
-    ax = plt.subplot()
-    ax.plot(list(data['date'][start:start+base_days+prediction_days]), values_from_data)
-    ax.plot(list(data['date'][start:start+base_days+prediction_days]), values_from_model)
-    print(values_from_data, values_from_model)
-    return ax
-
 def tester(input_days_amounts, check_days_amounts, epochs_values, batch_sizes, seed=123456, data_size=1000):
     tests_data = []
     for input_days in input_days_amounts:
