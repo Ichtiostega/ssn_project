@@ -33,6 +33,7 @@ class DataProvider:
             self.data["value"] = self.data["value"].astype(float)
             self.data["date"] = pd.to_datetime(self.data["date"])
             self.data["value"] = DataProvider._fill(self.data["value"])
+            self.nn_data = deepcopy(self.data)
             self.normalize_data()
 
     def get_data_sets(
@@ -73,5 +74,12 @@ class DataProvider:
         return train_x, train_y, validate_x, validate_y, test_x, test_y
 
     def normalize_data(self):
+        self.min = self.data["value"].min()
         self.data["value"] = self.data["value"] - self.data["value"].min()
+        self.max = self.data["value"].max()
         self.data["value"] = self.data["value"] / (self.data["value"].max())
+
+    def denormalize(self, value):
+        value = value * self.max
+        value = value + self.min
+        return value

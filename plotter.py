@@ -1,4 +1,6 @@
 from matplotlib import pyplot as plt
+from data_provider import DataProvider
+import numpy as np
 
 
 def plot_prediction_errors(data):
@@ -70,16 +72,50 @@ def plot_prediction_errors_at_once(data):
     plt.ylabel("mse")
     plt.xlabel("days predicted")
     plt.savefig(f"Graph_mse.png")
+    plt.clf()
 
+def plot_prediction_errors_pe_at_once(data):
+    tmp = {}
+    for test in data:
+        val = (
+            tmp.setdefault(test["epochs"], {})
+            .setdefault(test["batch_size"], {})
+            .setdefault(test["input_days"], {})
+            .setdefault(test["check_days"], {})
+        )
+        val["mse"] = test["mse"]
+        val["percent error"] = test["percent error"]
+
+    for epochs in tmp:
+        for batch_size in tmp[epochs]:
+            for input_days in tmp[epochs][batch_size]:
+                mses = []
+                pes = []
+                x = []
+                for check_days in tmp[epochs][batch_size][input_days]:
+                    x.append(check_days)
+                    mses.append(tmp[epochs][batch_size][input_days][check_days]["mse"])
+                    pes.append(
+                        tmp[epochs][batch_size][input_days][check_days]["percent error"]
+                    )
+
+                plt.plot(x, pes, label=f"Input days: {input_days}")
+    plt.legend()
+    plt.ylabel("Percent Error")
+    plt.xlabel("days predicted")
+    plt.savefig(f"Graph_pe.png")
+    plt.clf()
+    
 
 def plot_comparison_graph(
     model, base_days, prediction_days, starting_date, file_name=None
 ):
-    data = provider.data
+    provider = DataProvider("Foreign_Exchange_Rates.csv")
+    data = provider.nn_data
     start = data[data["date"] == starting_date].index[0]
     values_from_data = list(data["value"][start : start + base_days + prediction_days])
     values_from_model = list(
-        provider.normalized_data()["value"][start : start + base_days]
+        provider.data["value"][start : start + base_days]
     )
     for _ in range(prediction_days):
         input = np.empty((1, base_days, 1), float)
@@ -90,11 +126,16 @@ def plot_comparison_graph(
     plt.plot(
         list(data["date"][start : start + base_days + prediction_days]),
         values_from_data,
+        label='data'
     )
     plt.plot(
         list(data["date"][start : start + base_days + prediction_days]),
         values_from_model,
+        label='model'
     )
+    plt.legend()
+    plt.xlabel("date")
+    plt.ylabel("value")
     file_name = (
         file_name
         if file_name
