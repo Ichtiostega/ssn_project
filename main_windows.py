@@ -11,9 +11,7 @@ from datetime import datetime
 from data_provider import DataProvider
 from rnn import Rnn
 from evaluator import Evaluator
-import numpy as np
 from functools import reduce
-from matplotlib import pyplot as plt
 import pickle
 
 provider = DataProvider("Foreign_Exchange_Rates.csv")
@@ -90,24 +88,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-
-#import time
-#from datetime import datetime
-#from joblib import Parallel, delayed
-#import multiprocessing
-#num_cores = multiprocessing.cpu_count()
-#def timer(v):
-#    time.sleep(2)
-#    t = datetime.now()
-#    time.sleep(2)
-    #print(t, v)
-#    return t, v
-
-#args = list(range(10))
-
-# Parallel(n_jobs=num_cores)(delayed(timer)(*args) for _ in range(4))
-
-#with multiprocessing.Pool(10) as p:
-#    rslt = p.map(timer, args)
-
-#rslt
