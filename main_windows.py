@@ -73,8 +73,8 @@ def main():
     batch_size = 100
     seed = 123456
     tester_output = []
-    #tester_args = [[[1, 2, 4, 8, 16], [1, 3, 7, 30], [400], [200]]]*10
-    tester_args = [[[2], [30], [100], [200]]]*1
+    tester_args = [[[1, 2, 4, 8, 16], [1, 3, 7, 30], [400], [200]]]*10
+    #tester_args = [[[1], [1], [100], [200]]]*10
     now = datetime.now()
     with multiprocessing.Pool(10) as p:
         tester_output = p.starmap(tester, tester_args)
