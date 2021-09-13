@@ -10,7 +10,7 @@ class Evaluator:
             data = np.array([data])
             model_result = self.model.simple_predict(data)
             model_result = np.array(model_result).flatten()
-            results_percent.extend(abs(abs(model_results)-abs(expected_results))/max(model_result, expected_result)*100)
+            results_percent.extend(abs(abs(model_result)-abs(expected_result))/(max(abs(model_result), abs(expected_result))+0.00000001)*100)
             results_mse.extend((model_result-expected_result)**2)
         mse = sum(results_mse) / len(results_mse)
         percent_error = sum(results_percent) / len(results_percent)
