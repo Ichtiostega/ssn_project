@@ -25,6 +25,29 @@ def plot_prediction_errors(data):
                 plt.savefig(f"Graph_ps_{epochs}_{batch_size}_{input_days}.png")
                 plt.clf()
 
+def plot_prediction_errors_at_once(data):
+    tmp = {}
+    for test in data:
+        val = tmp.setdefault(test['epochs'], {}).setdefault(test['batch_size'], {}).setdefault(test['input_days'], {}).setdefault(test['check_days'], {})
+        val['mse'] = test['mse']
+        val['percent error'] = test['percent error']
+
+    for epochs in tmp:
+        for batch_size in tmp[epochs]:
+            for input_days in tmp[epochs][batch_size]:
+                mses = []
+                pes = []
+                x = []
+                for check_days in tmp[epochs][batch_size][input_days]:
+                    x.append(check_days)
+                    mses.append(tmp[epochs][batch_size][input_days][check_days]['mse'])
+                    pes.append(tmp[epochs][batch_size][input_days][check_days]['percent error'])
+                
+                plt.plot(x, mses, label=f'{input_days}')
+    plt.legend()
+    plt.savefig(f"Graph_mse.png")
+
+
 def plot_comparison_graph(model, base_days, prediction_days, starting_date, file_name=None):
     data = provider.data
     start = data[data['date'] == starting_date].index[0]
