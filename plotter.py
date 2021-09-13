@@ -74,6 +74,39 @@ def plot_prediction_errors_at_once(data):
     plt.savefig(f"Graph_mse.png")
     plt.clf()
 
+def plot_prediction_errors_at_once_epochs(data, i_d):
+    tmp = {}
+    for test in data:
+        val = (
+            tmp.setdefault(test["epochs"], {})
+            .setdefault(test["batch_size"], {})
+            .setdefault(test["input_days"], {})
+            .setdefault(test["check_days"], {})
+        )
+        val["mse"] = test["mse"]
+        val["percent error"] = test["percent error"]
+
+    for epochs in tmp:
+        for batch_size in tmp[epochs]:
+            for input_days in tmp[epochs][batch_size]:
+                if input_days == i_d:
+                    mses = []
+                    pes = []
+                    x = []
+                    for check_days in tmp[epochs][batch_size][input_days]:
+                        x.append(check_days)
+                        mses.append(tmp[epochs][batch_size][input_days][check_days]["mse"])
+                        pes.append(
+                            tmp[epochs][batch_size][input_days][check_days]["percent error"]
+                        )
+
+                    plt.plot(x, mses, label=f"Epochs: {epochs}")
+    plt.legend()
+    plt.ylabel("mse")
+    plt.xlabel("days predicted")
+    plt.savefig(f"Graph_mse_epochs_{i_d}.png")
+    plt.clf()
+
 def plot_prediction_errors_pe_at_once(data):
     tmp = {}
     for test in data:
@@ -104,6 +137,39 @@ def plot_prediction_errors_pe_at_once(data):
     plt.ylabel("Percent Error")
     plt.xlabel("days predicted")
     plt.savefig(f"Graph_pe.png")
+    plt.clf()
+
+def plot_prediction_errors_pe_at_once_epochs(data, i_d):
+    tmp = {}
+    for test in data:
+        val = (
+            tmp.setdefault(test["epochs"], {})
+            .setdefault(test["batch_size"], {})
+            .setdefault(test["input_days"], {})
+            .setdefault(test["check_days"], {})
+        )
+        val["mse"] = test["mse"]
+        val["percent error"] = test["percent error"]
+
+    for epochs in tmp:
+        for batch_size in tmp[epochs]:
+            for input_days in tmp[epochs][batch_size]:
+                if input_days == i_d:
+                    mses = []
+                    pes = []
+                    x = []
+                    for check_days in tmp[epochs][batch_size][input_days]:
+                        x.append(check_days)
+                        mses.append(tmp[epochs][batch_size][input_days][check_days]["mse"])
+                        pes.append(
+                            tmp[epochs][batch_size][input_days][check_days]["percent error"]
+                        )
+
+                    plt.plot(x, pes, label=f"Epochs: {epochs}")
+    plt.legend()
+    plt.ylabel("percent error")
+    plt.xlabel("days predicted")
+    plt.savefig(f"Graph_pe_epochs_{i_d}.png")
     plt.clf()
     
 
