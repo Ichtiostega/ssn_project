@@ -1,5 +1,7 @@
-from tensorflow import keras
 import numpy as np
+from tensorflow import keras
+
+
 class Rnn:
   def __init__(self, input_size, epochs = 100, batch_size = 100):
     self.model = keras.models.Sequential([

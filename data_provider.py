@@ -1,10 +1,10 @@
-from copy import deepcopy
-from math import isnan
 import random
+from copy import deepcopy
 from functools import partial
+from math import isnan
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 class DataProvider:

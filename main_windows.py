@@ -7,12 +7,13 @@ Original file is located at
     https://colab.research.google.com/drive/1WLpDCpfDxSqCYVb7s4Fg6oqzyacPCli-
 """
 import multiprocessing
-from datetime import datetime
-from data_provider import DataProvider
-from rnn import Rnn
-from evaluator import Evaluator
-from functools import reduce
 import pickle
+from datetime import datetime
+from functools import reduce
+
+from data_provider import DataProvider
+from evaluator import Evaluator
+from rnn import Rnn
 
 provider = DataProvider("Foreign_Exchange_Rates.csv")
 def reduce_output(scenario):
