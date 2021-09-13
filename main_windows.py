@@ -69,12 +69,10 @@ def main():
     data = DataProvider("Foreign_Exchange_Rates.csv")
     provider = data
     input_sizes = [3, 4, 5]
-    epochs = 100
-    batch_size = 100
     seed = 123456
     tester_output = []
-    tester_args = [[[1, 2, 4, 8, 16], [1, 3, 7, 30], [400], [200]]]*10
-    #tester_args = [[[1], [1], [100], [200]]]*10
+    tester_args = [[[1, 2, 4, 8, 16, 32], [1, 2, 3, 5, 8, 13, 21, 34], [600], [200]]]*10
+    #tester_args = [[[2, 3], [5, 10], [100], [200]]]*10
     now = datetime.now()
     with multiprocessing.Pool(10) as p:
         tester_output = p.starmap(tester, tester_args)
