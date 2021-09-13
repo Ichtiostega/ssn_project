@@ -7,14 +7,13 @@ Original file is located at
     https://colab.research.google.com/drive/1WLpDCpfDxSqCYVb7s4Fg6oqzyacPCli-
 """
 import multiprocessing
-from datetime import datetime
-from data_provider import DataProvider
-from rnn import Rnn
-from evaluator import Evaluator
-import numpy as np
-from functools import reduce
-from matplotlib import pyplot as plt
 import pickle
+from datetime import datetime
+from functools import reduce
+
+from data_provider import DataProvider
+from evaluator import Evaluator
+from rnn import Rnn
 
 provider = DataProvider("Foreign_Exchange_Rates.csv")
 def reduce_output(scenario):
@@ -38,24 +37,6 @@ def reduce_output(scenario):
   result['mse'] = reduce(helper_mse, scenario)/len(scenario)
   result['percent error'] = reduce(helper_percent, scenario)/len(scenario)
   return result
-
-
-def draw_comparison_graph(model, base_days, prediction_days, starting_date):
-    data = provider.data
-    start = data[data['date'] == starting_date].index[0]
-    values_from_data = list(data['value'][start:start+base_days+prediction_days])
-    values_from_model = list(provider.normalized_data()['value'][start:start+base_days])
-    for _ in range(prediction_days):
-        input = np.empty((1,base_days,1), float)
-        for i, el in enumerate(values_from_model[-base_days:]):
-            input[0][i][0] = el
-        values_from_model.append(float(model.model(input)[0][0]))
-    values_from_model = list(map(lambda x: provider.denormalize(x), values_from_model))
-    ax = plt.subplot()
-    ax.plot(list(data['date'][start:start+base_days+prediction_days]), values_from_data)
-    ax.plot(list(data['date'][start:start+base_days+prediction_days]), values_from_model)
-    print(values_from_data, values_from_model)
-    return ax
 
 def tester(input_days_amounts, check_days_amounts, epochs_values, batch_sizes, seed=123456, data_size=1000):
     tests_data = []
@@ -88,10 +69,12 @@ def main():
     data = DataProvider("Foreign_Exchange_Rates.csv")
     provider = data
     input_sizes = [3, 4, 5]
+    epochs = 100
+    batch_size = 100
     seed = 123456
     tester_output = []
-    tester_args = [[[1, 2, 4, 8, 16, 32], [1, 2, 3, 5, 8, 13, 21, 34], [600], [200]]]*10
-    #tester_args = [[[2, 3], [5, 10], [100], [200]]]*10
+    #tester_args = [[[1, 2, 4, 8, 16], [1, 3, 7, 30], [400], [200]]]*10
+    tester_args = [[[2], [30], [100], [200]]]*1
     now = datetime.now()
     with multiprocessing.Pool(10) as p:
         tester_output = p.starmap(tester, tester_args)
@@ -106,24 +89,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-
-#import time
-#from datetime import datetime
-#from joblib import Parallel, delayed
-#import multiprocessing
-#num_cores = multiprocessing.cpu_count()
-#def timer(v):
-#    time.sleep(2)
-#    t = datetime.now()
-#    time.sleep(2)
-    #print(t, v)
-#    return t, v
-
-#args = list(range(10))
-
-# Parallel(n_jobs=num_cores)(delayed(timer)(*args) for _ in range(4))
-
-#with multiprocessing.Pool(10) as p:
-#    rslt = p.map(timer, args)
-
-#rslt
