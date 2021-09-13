@@ -19,10 +19,16 @@ def plot_prediction_errors(data):
                     pes.append(tmp[epochs][batch_size][input_days][check_days]['percent error'])
                 
                 plt.plot(x, mses)
+                plt.title(f"Input days: {input_days}")
+                plt.ylabel("mse")
+                plt.xlabel("days predicted")
                 plt.savefig(f"Graph_mse_{epochs}_{batch_size}_{input_days}.png")
                 plt.clf()
                 plt.plot(x, pes)
-                plt.savefig(f"Graph_ps_{epochs}_{batch_size}_{input_days}.png")
+                plt.title(f"Input days: {input_days}")
+                plt.ylabel("Percent Error")
+                plt.xlabel("days predicted")
+                plt.savefig(f"Graph_pe_{epochs}_{batch_size}_{input_days}.png")
                 plt.clf()
 
 def plot_prediction_errors_at_once(data):
@@ -43,8 +49,10 @@ def plot_prediction_errors_at_once(data):
                     mses.append(tmp[epochs][batch_size][input_days][check_days]['mse'])
                     pes.append(tmp[epochs][batch_size][input_days][check_days]['percent error'])
                 
-                plt.plot(x, mses, label=f'{input_days}')
+                plt.plot(x, mses, label=f'Input days: {input_days}')
     plt.legend()
+    plt.ylabel("mse")
+    plt.xlabel("days predicted")
     plt.savefig(f"Graph_mse.png")
 
 
